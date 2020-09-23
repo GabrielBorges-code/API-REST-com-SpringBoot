@@ -11,22 +11,9 @@ public class IndexController {
     @GetMapping()
     //@RequestMapping(method = RequestMethod.GET) isso é a mesma coisa do get mapping
     public String hello(){
-        return "Hello Spring Boot";
-    }
 
-    @PostMapping("/login")
-    public String login(@RequestParam ("login") String login, @RequestParam("senha") String senha){
-        return "Login: " + login + ", Senha: " + senha;
-    }
-/*
-    @GetMapping("/carros/{id}")
-    public String getCarroById(@PathVariable("id") Long id){
-        return "Carro by id: " + id;
-    }
+        return "API dos carros ";
 
-    @GetMapping("/carros/tipo/{tipo}")
-    public String getCarroByTipo(@PathVariable("tipo") String tipo){
-        return "Lista de tipo de carros " + tipo;
-    }*/
+    }
 
 }
