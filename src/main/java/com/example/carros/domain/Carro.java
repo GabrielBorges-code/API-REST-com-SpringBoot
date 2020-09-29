@@ -1,8 +1,19 @@
 package com.example.carros.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Carro {
 
+    @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
+
+    public Carro(){
+
+    }
+
+    //@Column(name = "nome coluna")
     private String nome;
 
     public Carro(Long id, String nome) {
