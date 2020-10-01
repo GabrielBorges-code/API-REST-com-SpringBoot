@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Carro {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Carro(){
