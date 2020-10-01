@@ -18,7 +18,15 @@ public class CarroService {
     }
 
     public Optional<Carro> getCarrosById(Long id) {
+
         return rep.findById(id);
+
+    }
+
+    public Iterable<Carro> getCarrosByTipo(String tipo) {
+
+        return rep.findByTipo(tipo);
+
     }
 
     public List<Carro> getCarrosFake() {
