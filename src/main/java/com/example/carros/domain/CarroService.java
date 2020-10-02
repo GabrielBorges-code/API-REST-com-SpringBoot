@@ -29,9 +29,9 @@ public class CarroService {
         return list;*/
     }
 
-    public Optional<Carro> getCarrosById(Long id) {
+    public Optional<CarroDTO> getCarrosById(Long id) {
 
-        return rep.findById(id);
+        return rep.findById(id).map(CarroDTO::new);
 
     }
 
@@ -66,23 +66,24 @@ public class CarroService {
     }
 
     public Carro update(Carro carro, Long id) {
+        Assert.notNull(id,"Não foi possível atualizar o registro");
 
-        Assert.notNull(id,"Não foi possível alterar o registro");
-
-        //Busca o dado no banco de dados
-        Optional<Carro> optional = getCarrosById(id);
+        // Busca o carro no banco de dados
+        Optional<Carro> optional = rep.findById(id);
         if(optional.isPresent()) {
             Carro db = optional.get();
-            //Copia as propriedades
+            // Copiar as propriedades
             db.setNome(carro.getNome());
             db.setTipo(carro.getTipo());
             System.out.println("Carro id " + db.getId());
 
-            //Atualiza carro
+            // Atualiza o carro
+            //return CarroDTO.create(db);
             rep.save(db);
 
             return db;
         }else{
+            //return null;
             throw new RuntimeException("Não foi possivel atualizar o registro");
         }
 
@@ -90,9 +91,7 @@ public class CarroService {
 
     public void delete(Long id) {
 
-        Optional<Carro> carro = getCarrosById(id);
-        if(carro.isPresent()){
-
+        if(getCarrosById(id).isPresent()){
             rep.deleteById(id);
 
         }

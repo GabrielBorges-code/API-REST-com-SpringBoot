@@ -1,5 +1,5 @@
 package com.example.carros.domain.dto;
-
+import org.modelmapper.ModelMapper;
 import com.example.carros.domain.Carro;
 import lombok.Data;
 
@@ -15,5 +15,10 @@ public class CarroDTO {
         this.nome = c.getNome();
         this.tipo = c.getTipo();
 
+    }
+
+    public static CarroDTO create (Carro c){
+        ModelMapper modelMapper = new ModelMapper();
+        return orderDTO = modelMapper.map(c, CarroDTO.class);
     }
 }
