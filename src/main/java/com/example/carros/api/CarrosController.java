@@ -2,6 +2,7 @@ package com.example.carros.api;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.CarroService;
+import com.example.carros.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class CarrosController {
     private CarroService service;
 
     @GetMapping()
-    public ResponseEntity<Iterable<Carro>> get() {
+    public ResponseEntity get() {
 
         return ResponseEntity.ok(service.getCarros());
 
@@ -34,26 +35,16 @@ public class CarrosController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 
-        /*if(carro.isPresent()){
-
-            return ResponseEntity.ok(carro.get());
-
-        }else{
-            return ResponseEntity.notFound().build();
-        }*/
-
-
     }
 
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo){
 
-        List<Carro> carros = service.getCarrosByTipo(tipo);
+        List<CarroDTO> carros = service.getCarrosByTipo(tipo);
 
         return carros.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(carros);
-
 
     }
 
