@@ -18,36 +18,25 @@ public class CarroService {
 
     public List<CarroDTO> getCarros() {
 
+        return rep.findAll().stream().map(CarroDTO::create).collect(Collectors.toList());
 
-        return rep.findAll().stream().map(CarroDTO::new).collect(Collectors.toList());
 
-        /* é a mesma coisa.
-        List<Carro> carros = rep.findAll();
-
-        List<CarroDTO> list = carros.stream().map(CarroDTO::new).collect(Collectors.toList());
-
-        return list;*/
     }
 
     public Optional<CarroDTO> getCarrosById(Long id) {
 
-        return rep.findById(id).map(CarroDTO::new);
+        return rep.findById(id).map(CarroDTO::create);
 
     }
 
     public List<CarroDTO> getCarrosByTipo(String tipo) {
 
-        return rep.findByTipo(tipo).stream().map(CarroDTO::new).collect(Collectors.toList());
+        return rep.findByTipo(tipo).stream().map(CarroDTO::create).collect(Collectors.toList());
 
     }
 
     public List<Carro> getCarrosFake() {
         List<Carro> carros = new ArrayList<>();
-
-        //Array im memory
-        /*carros.add(new Carro(1L,"Fusca"));
-        carros.add(new Carro(2L,"Brasilia"));
-        carros.add(new Carro(3L,"Chevette"));*/
 
         return carros;
     }
@@ -90,8 +79,7 @@ public class CarroService {
     }
 
     public void delete(Long id) {
-
-        if(getCarrosById(id).isPresent()){
+        if(getCarrosById(id).isPresent()) {
             rep.deleteById(id);
 
         }
