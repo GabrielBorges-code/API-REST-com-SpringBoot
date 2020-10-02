@@ -1,5 +1,6 @@
 package com.example.carros.domain;
 
+import com.example.carros.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -7,6 +8,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarroService {
@@ -14,19 +16,28 @@ public class CarroService {
     @Autowired
     private CarroRepository rep;
 
-    public Iterable<Carro> getCarros() {
-        return rep.findAll();
+    public List<CarroDTO> getCarros() {
+
+
+        return rep.findAll().stream().map(CarroDTO::new).collect(Collectors.toList());
+
+        /* é a mesma coisa.
+        List<Carro> carros = rep.findAll();
+
+        List<CarroDTO> list = carros.stream().map(CarroDTO::new).collect(Collectors.toList());
+
+        return list;*/
     }
 
-    public Optional<Carro> getCarrosById(Long id) {
+    public Optional<CarroDTO> getCarrosById(Long id) {
 
-        return rep.findById(id);
+        return rep.findById(id).map(CarroDTO::new);
 
     }
 
-    public Iterable<Carro> getCarrosByTipo(String tipo) {
+    public List<CarroDTO> getCarrosByTipo(String tipo) {
 
-        return rep.findByTipo(tipo);
+        return rep.findByTipo(tipo).stream().map(CarroDTO::new).collect(Collectors.toList());
 
     }
 
@@ -34,9 +45,9 @@ public class CarroService {
         List<Carro> carros = new ArrayList<>();
 
         //Array im memory
-        carros.add(new Carro(1L,"Fusca"));
+        /*carros.add(new Carro(1L,"Fusca"));
         carros.add(new Carro(2L,"Brasilia"));
-        carros.add(new Carro(3L,"Chevette"));
+        carros.add(new Carro(3L,"Chevette"));*/
 
         return carros;
     }
@@ -55,23 +66,24 @@ public class CarroService {
     }
 
     public Carro update(Carro carro, Long id) {
+        Assert.notNull(id,"Não foi possível atualizar o registro");
 
-        Assert.notNull(id,"Não foi possível alterar o registro");
-
-        //Busca o dado no banco de dados
-        Optional<Carro> optional = getCarrosById(id);
+        // Busca o carro no banco de dados
+        Optional<Carro> optional = rep.findById(id);
         if(optional.isPresent()) {
             Carro db = optional.get();
-            //Copia as propriedades
+            // Copiar as propriedades
             db.setNome(carro.getNome());
             db.setTipo(carro.getTipo());
             System.out.println("Carro id " + db.getId());
 
-            //Atualiza carro
+            // Atualiza o carro
+            //return CarroDTO.create(db);
             rep.save(db);
 
             return db;
         }else{
+            //return null;
             throw new RuntimeException("Não foi possivel atualizar o registro");
         }
 
@@ -79,9 +91,7 @@ public class CarroService {
 
     public void delete(Long id) {
 
-        Optional<Carro> carro = getCarrosById(id);
-        if(carro.isPresent()){
-
+        if(getCarrosById(id).isPresent()){
             rep.deleteById(id);
 
         }
