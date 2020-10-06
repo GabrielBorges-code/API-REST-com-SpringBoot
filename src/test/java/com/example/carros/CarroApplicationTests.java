@@ -54,7 +54,7 @@ public class CarroApplicationTests {
 	public void testLista() {
 		List<CarroDTO> carro = service.getCarros();
 
-		assertEquals("32", carro.size());
+		assertEquals("30", carro.size());
 	}
 
 }
