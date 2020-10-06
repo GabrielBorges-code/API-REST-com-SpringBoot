@@ -25,7 +25,7 @@ public class CarroApplicationTests {
 	public void testSave() {
 
 		Carro carro = new Carro();
-		carro.setNome("Brasilia");
+		carro.setNome("porshe");
 		carro.setTipo("esportivo");
 
 		CarroDTO c = service.insert(carro);
@@ -39,8 +39,8 @@ public class CarroApplicationTests {
 		assertTrue(op.isPresent());
 
 		c = op.get();
-		assertEquals("Opala", c.getNome());
-		assertEquals("luxo", c.getTipo());
+		assertEquals("porshe", c.getNome());
+		assertEquals("esportivo", c.getTipo());
 
 		//delete object
 		service.delete(id);
