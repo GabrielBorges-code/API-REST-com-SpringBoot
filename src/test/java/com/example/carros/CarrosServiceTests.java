@@ -12,11 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CarroApplicationTests {
+public class CarrosServiceTests {
 
 	@Autowired
 	private CarroService service;
@@ -25,36 +25,47 @@ public class CarroApplicationTests {
 	public void testSave() {
 
 		Carro carro = new Carro();
-		carro.setNome("porshe");
-		carro.setTipo("esportivo");
+		carro.setNome("Ferrari");
+		carro.setTipo("Esportivo");
 
 		CarroDTO c = service.insert(carro);
+
 		assertNotNull(c);
 
 		Long id = c.getId();
 		assertNotNull(id);
 
-		//Search object
-		Optional<CarroDTO>op = service.getCarrosById(id);
+		//search car
+		Optional<CarroDTO> op = service.getCarrosById(id);
 		assertTrue(op.isPresent());
 
 		c = op.get();
-		assertEquals("porshe", c.getNome());
-		assertEquals("esportivo", c.getTipo());
 
-		//delete object
+		//delete car
 		service.delete(id);
 
-		//Verify if deleted
+		//verify if deleted
 		assertFalse(service.getCarrosById(id).isPresent());
+
 
 	}
 
 	@Test
 	public void testLista() {
-		List<CarroDTO> carro = service.getCarros();
 
-		assertEquals("30", carro.size());
+		List<CarroDTO> carros = service.getCarros();
+
+		assertEquals(30, carros.size());
+
 	}
 
+	@Test
+	public void testGet() {
+
+	assertEquals(10, service.getCarrosByTipo("luxo").size());
+	assertEquals(10, service.getCarrosByTipo("classicos").size());
+	assertEquals(10, service.getCarrosByTipo("esportivos").size());
+	//assertEquals(10, service.getCarrosByTipo("xxx").size());
+
+	}
 }
