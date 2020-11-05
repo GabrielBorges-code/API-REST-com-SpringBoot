@@ -53,14 +53,10 @@ public class CarrosController {
     @PostMapping
     public ResponseEntity post(@RequestBody Carro carro){
 
-        try {
-            CarroDTO c = service.insert(carro);
+        CarroDTO c = service.insert(carro);
 
-            URI location = getUri(c.getId());
-            return ResponseEntity.created(location).build();
-        }catch (Exception ex){
-            return ResponseEntity.badRequest().build();
-        }
+        URI location = getUri(c.getId());
+        return ResponseEntity.created(location).build();
 
     }
 
